@@ -2,9 +2,7 @@ from dask.distributed import Queue , Client
 
 
 class MessageQue_:
-    
-    from dask.distributed import Queue , Client
-    
+        
     def __init__(self,name,pubsub=False):
         self.client = Client(address="dask-scheduler:8786")
         self.name=name
@@ -13,7 +11,18 @@ class MessageQue_:
             self.sub=Sub(name)
         else:
             self.queue=Queue(name)
-        
+            
+        self.data = dict()
+
+    def key_value_publish(self, key, value):
+        self.data[key] = value
+        self.pub.put(self.data[key])
+
+    def get_value(self, key):
+        return self.data[key]
+
+
+
     def append(self,data):
         future = self.client.scatter(data)
         self.queue.put(future)
