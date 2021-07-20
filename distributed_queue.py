@@ -7,11 +7,12 @@ class MessageQue_:
     
     def __init__(self,name,pubsub=False):
         self.client = Client(address="dask-scheduler:8786")
-        self.queue=Queue(name)
         self.name=name
         if pubsub:
             self.pub=Pub(name)
             self.sub=Sub(name)
+        else:
+            self.queue=Queue(name)
         
     def append(self,data):
         future = self.client.scatter(data)
