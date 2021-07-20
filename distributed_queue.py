@@ -12,5 +12,5 @@ class MessageQueue_:
     def get(self):
         try:
             return self.queue.get().result()
-        except IndexError:
+        except Exception as e:
             return False
