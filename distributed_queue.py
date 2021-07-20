@@ -14,13 +14,12 @@ class MessageQue_:
             
         self.data = dict()
 
-    def key_value_publish(self, key, value):
+    def key_value(self, key, value):
         self.data[key] = value
-        self.pub.put(self.data[key])
+
 
     def get_value(self, key):
         return self.data[key]
-
 
 
     def append(self,data):
@@ -42,8 +41,8 @@ class MessageQue_:
         except Exception as e:
             return False
     
-    def submit_function(self,data,func):
-        future = self.client.submit(func, data)
+    def submit_function(self,func):
+        future = self.client.submit(func, self.data)
         if self.pub:
             self.pub.put(future)
         else:
